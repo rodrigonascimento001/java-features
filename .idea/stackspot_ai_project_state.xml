@@ -6,8 +6,15 @@
         <entry key="rodrigo.nascimento@zup.com.br">
           <value>
             <ProjectStateData>
-              <option name="conversationId" value="01JPGS2HGCSZBAF0VC282ZEC0Y" />
+              <option name="conversationId" value="01JQXSPY7X61A3RB9DTVC86486" />
               <option name="projectId" value="01JPGS2HHFWXTD4DQPRYCH3DJW" />
+            </ProjectStateData>
+          </value>
+        </entry>
+        <entry key="unauthenticated">
+          <value>
+            <ProjectStateData>
+              <option name="projectId" value="01JQXSNVCKX6ZQ2EFSAE7F8Y0A" />
             </ProjectStateData>
           </value>
         </entry>

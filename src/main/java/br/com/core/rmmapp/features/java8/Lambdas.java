@@ -1,4 +1,4 @@
-package br.com.core.rmmapp.features.java11;
+package br.com.core.rmmapp.features.java8;
 
 import java.util.Arrays;
 import java.util.List;
