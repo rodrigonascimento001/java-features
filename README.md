@@ -187,5 +187,162 @@ public class MapExample {
 
 ---
 
-Essas são as principais features do Java 8. Elas tornam o código mais conciso, legível e funcional, além de introduzir melhorias significativas na API de coleções e no tratamento de datas e horas.
+O Java 9 trouxe várias novas funcionalidades e melhorias. Aqui estão as principais features explicadas de forma didática e com exemplos:
 
+---
+
+### 1. **Sistema de Módulos (Project Jigsaw)**
+ Java 9 
+**Exemplo:**
+```java
+// module-info.java
+module com.example.myapp {
+    requires java.base; // Importa o módulo base do Java
+    exports com.example.myapp.utils; // Exporta o pacote para outros módulos
+}
+```
+
+---
+
+### 2. **Métodos `private` em Interfaces**
+Agora, interfaces podem ter métodos `private` para reutilizar código dentro da própria interface.
+
+**Exemplo:**
+```java
+interface MyInterface {
+    default void showMessage() {
+        log("Hello from default method!");
+    }
+
+    private void log(String message) {
+        System.out.println(message);
+    }
+}
+```
+
+---
+
+### 3. **`JShell` (REPL)**
+O `JShell` é uma ferramenta interativa para testar trechos de código Java sem precisar criar um arquivo completo.
+
+**Exemplo no terminal:**
+```shell
+jshell> int x = 10;
+jshell> System.out.println(x * 2);
+
+```
+
+---
+
+### 4. **Coleções Imutáveis**
+O Java 9 introduziu métodos para criar coleções imutáveis de forma mais simples.
+
+**Exemplo:**
+```java
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> list = List.of("A", "B", "C");
+        Set<String> set = Set.of("X", "Y", "Z");
+        Map<Integer, String> map = Map.of(1, "One", 2, "Two");
+
+        System.out.println(list);
+        System.out.println(set);
+        System.out.println(map);
+    }
+}
+```
+
+---
+
+### 5. **`Stream` API Melhorada**
+Novos métodos foram adicionados à API de Streams, como `takeWhile`, `dropWhile` e `ofNullable`.
+
+**Exemplo:**
+```java
+import java.util.stream.Stream;
+
+public class Main {
+    public static void main(String[] args) {
+        Stream<Integer> stream = Stream.of(1, 2, 3, 4, 5, 6);
+
+        // takeWhile: Pega elementos enquanto a condição for verdadeira
+        stream.takeWhile(n -> n < 4).forEach(System.out::println); // Saída: 1, 2, 3
+    }
+}
+```
+
+---
+
+### 6. **`Optional` Melhorado**
+O `Optional` agora tem novos métodos como `ifPresentOrElse` e `stream`.
+
+**Exemplo:**
+```java
+import java.util.Optional;
+
+public class Main {
+    public static void main(String[] args) {
+        Optional<String> optional = Optional.of("Hello");
+
+        optional.ifPresentOrElse(
+            value -> System.out.println("Value: " + value),
+            () -> System.out.println("No value present")
+        );
+    }
+}
+```
+
+---
+
+### 7. **`Process API` Melhorada**
+A API de processos foi aprimorada para facilitar a interação com processos do sistema operacional.
+
+**Exemplo:**
+```java
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        ProcessHandle currentProcess = ProcessHandle.current();
+        System.out.println("Process ID: " + currentProcess.pid());
+    }
+}
+```
+
+---
+
+### 8. **Compact Strings**
+O Java 9 introduziu uma otimização para armazenar strings de forma mais eficiente, usando menos memória para strings que contêm apenas caracteres Latin-1.
+
+---
+
+### 9. **HTTP/2 Client**
+O Java 9 trouxe um cliente HTTP/2 experimental para substituir a antiga API `HttpURLConnection`.
+
+**Exemplo:**
+```java
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI("https://example.com"))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
+    }
+}
+```
+
+---
+ 
