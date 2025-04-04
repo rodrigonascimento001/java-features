@@ -184,11 +184,9 @@ public class MapExample {
     }
 }
 ```
-
+Java 9
 ---
-
-O Java 9 trouxe várias novas funcionalidades e melhorias. Aqui estão as principais features explicadas de forma didática e com exemplos:
-
+ 
 ---
 
 ### 1. **Sistema de Módulos (Project Jigsaw)**
