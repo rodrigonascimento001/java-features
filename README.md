@@ -343,6 +343,98 @@ public class Main {
     }
 }
 ```
+Java 10
+---
+
+### 1. **Inferência de Tipo com `var`**
+O Java 10 introduziu a palavra-chave `var`, que permite a inferência de tipo para variáveis locais. O compilador determina o tipo da variável com base no valor atribuído.
+
+**Exemplo:**
+```java
+import java.util.List;
+
+public class VarExample {
+    public static void main(String[] args) {
+        var message = "Olá, Java 10!"; // O tipo é inferido como String
+        var numbers = List.of(1, 2, 3, 4, 5); // O tipo é inferido como List<Integer>
+
+        System.out.println(message);
+        numbers.forEach(System.out::println);
+    }
+}
+```
+**Observação:** O `var` só pode ser usado para variáveis locais, dentro de métodos, inicializadas no momento da declaração.
 
 ---
+
+### 2. **Coleta de Lixo Paralela para Memória Heap Completa (Full GC)**
+O coletor de lixo G1 foi aprimorado para lidar com a coleta de lixo completa (Full GC) de forma paralela, melhorando o desempenho em cenários de alta carga.
+
+**Impacto:** Essa melhoria é interna e não requer alterações no código. Ela reduz pausas durante a coleta de lixo.
+
+---
+
+### 3. **API de Criação de Coleções Imutáveis**
+O Java 10 expandiu a API de coleções para facilitar a cópia de coleções imutáveis.
+
+**Exemplo:**
+```java
+import java.util.List;
+
+public class CopyOfExample {
+    public static void main(String[] args) {
+        List<String> originalList = List.of("A", "B", "C");
+        List<String> copiedList = List.copyOf(originalList);
+
+        System.out.println(copiedList);
+    }
+}
+```
+**Observação:** A coleção retornada por `List.copyOf` é imutável.
+
+---
+
+### 4. **Integração com Docker**
+O Java 10 melhorou o suporte para execução em contêineres Docker, permitindo que a JVM reconheça limites de memória e CPU configurados no contêiner.
+
+**Impacto:** Essa melhoria é útil para aplicações que rodam em ambientes de contêiner, como Kubernetes.
+
+---
+
+### 5. **Compact Strings no Garbage Collector**
+O Java 10 aprimorou o uso de Compact Strings, otimizando o uso de memória para strings que contêm apenas caracteres Latin-1.
+
+**Impacto:** Essa melhoria é automática e reduz o consumo de memória em aplicações que manipulam muitas strings.
+
+---
+
+### 6. **API de `Optional` Melhorada**
+O Java 10 adicionou o método `orElseThrow()` à classe `Optional`, que lança uma exceção se o valor não estiver presente.
+
+**Exemplo:**
+```java
+import java.util.Optional;
+
+public class OptionalExample {
+    public static void main(String[] args) {
+        Optional<String> optional = Optional.of("Java 10");
+
+        // Lança NoSuchElementException se o valor não estiver presente
+        String value = optional.orElseThrow();
+        System.out.println(value);
+    }
+}
+```
+
+---
+
+### 7. **Consolidação do JDK**
+O Java 10 consolidou o código-fonte do JDK em um único repositório, facilitando a manutenção e o desenvolvimento do JDK.
+
+**Impacto:** Essa mudança é interna e não afeta diretamente o código do desenvolvedor.
+
+---
+
+Essas são as principais features do Java 10. A introdução do `var` e as melhorias na API de coleções e `Optional` são as mais visíveis para os desenvolvedores, enquanto as melhorias no coletor de lixo e no suporte a Docker beneficiam o desempenho e a execução em ambientes modernos.
+
  
