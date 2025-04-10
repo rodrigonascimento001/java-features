@@ -435,4 +435,146 @@ O Java 10 consolidou o código-fonte do JDK em um único repositório, facilitan
 
 Essas são as principais features do Java 10. A introdução do `var` e as melhorias na API de coleções e `Optional` são as mais visíveis para os desenvolvedores, enquanto as melhorias no coletor de lixo e no suporte a Docker beneficiam o desempenho e a execução em ambientes modernos.
 
+
+
+### **Java 11**
+---
+
+### 1. **Strings: Novos Métodos**
+O Java 11 adicionou novos métodos úteis à classe `String`.
+
+- **`isBlank()`**: Verifica se a string está vazia ou contém apenas espaços em branco.
+- **`lines()`**: Divide a string em linhas.
+- **`strip()`**: Remove espaços em branco no início e no final da string (melhor que `trim()`).
+- **`repeat(int count)`**: Repete a string o número de vezes especificado.
+
+```java
+public class StringFeatures {
+    public static void main(String[] args) {
+        String str = "  Hello Java 11  ";
+        
+        // isBlank
+        System.out.println("".isBlank()); // true
+        System.out.println("   ".isBlank()); // true
+
+        // lines
+        String multiline = "Line1\nLine2\nLine3";
+        multiline.lines().forEach(System.out::println);
+
+        // strip
+        System.out.println(str.strip()); // "Hello Java 11"
+
+        // repeat
+        System.out.println("Java".repeat(3)); // "JavaJavaJava"
+    }
+}
+```
+
+---
+
+### 2. **`var` em Expressões Lambda**
+Agora é possível usar `var` para declarar parâmetros em expressões lambda.
+
+```java
+import java.util.function.BiFunction;
+
+public class LambdaVar {
+    public static void main(String[] args) {
+        BiFunction<Integer, Integer, Integer> sum = (var a, var b) -> a + b;
+        System.out.println(sum.apply(5, 10)); // 15
+    }
+}
+```
+
+---
+
+### 3. **HTTP Client**
+O Java 11 introduziu um novo **HTTP Client API** para realizar requisições HTTP de forma mais simples e moderna.
+
+```java
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.URI;
+
+public class HttpClientExample {
+    public static void main(String[] args) throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.github.com"))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
+    }
+}
+```
+
+---
+
+### 4. **`Files` - Ler e Escrever Strings**
+A classe `Files` agora permite ler e escrever arquivos diretamente como strings.
+
+```java
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+public class FilesExample {
+    public static void main(String[] args) throws Exception {
+        Path filePath = Path.of("example.txt");
+
+        // Escrever em um arquivo
+        Files.writeString(filePath, "Hello, Java 11!");
+
+        // Ler de um arquivo
+        String content = Files.readString(filePath);
+        System.out.println(content); // "Hello, Java 11!"
+    }
+}
+```
+
+---
+
+### 5. **Remoção de APIs e Ferramentas Antigas**
+Algumas APIs e ferramentas foram removidas no Java 11, como:
+- **Java EE e CORBA**: APIs como `javax.xml.bind` (JAXB) foram removidas.
+- **JavaFX**: Não faz mais parte do JDK.
+
+---
+
+### 6. **Executar Código Java sem Compilação**
+Agora é possível executar arquivos `.java` diretamente sem compilar manualmente.
+
+```bash
+# Exemplo
+$ echo 'public class Hello { public static void main(String[] args) { System.out.println("Hello, Java 11!"); } }' > Hello.java
+$ java Hello.java
+Hello, Java 11!
+```
+
+---
+
+### 7. **ZGC (Garbage Collector Experimental)**
+O **Z Garbage Collector (ZGC)** foi introduzido como um coletor de lixo de baixa latência. Ele é ideal para aplicações que precisam de tempos de pausa curtos.
+
+---
+
+### 8. **Novos Métodos em `Optional`**
+A classe `Optional` recebeu novos métodos, como `isEmpty()`.
+
+```java
+import java.util.Optional;
+
+public class OptionalExample {
+    public static void main(String[] args) {
+        Optional<String> optional = Optional.ofNullable(null);
+
+        // isEmpty
+        System.out.println(optional.isEmpty()); // true
+    }
+}
+```
+
+---
  
