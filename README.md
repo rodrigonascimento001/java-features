@@ -661,8 +661,229 @@ public class StringIndent {
     }
 }
 ```
-
+Java 13
 ---
  
+---
+
+### 1. **Text Blocks (Prévia)**
+Os *text blocks* permitem criar strings multilinha de forma mais legível, sem a necessidade de concatenar ou usar muitos caracteres de escape.
+
+**Antes do Java 13:**
+```java
+public class TextBlocksExample {
+    public static void main(String[] args) {
+        String json = "{\n" +
+                "  \"name\": \"John\",\n" +
+                "  \"age\": 30\n" +
+                "}";
+        System.out.println(json);
+    }
+}
+```
+
+**Com Text Blocks:**
+```java
+public class TextBlocksExample {
+    public static void main(String[] args) {
+        String json = """
+                {
+                  "name": "John",
+                  "age": 30
+                }
+                """;
+        System.out.println(json);
+    }
+}
+```
+- O uso de `"""` permite criar strings multilinha de forma mais limpa e legível.
+- Caracteres de escape são minimizados.
+
+---
+
+### 2. **Switch Expressions (Melhoria)**
+O *switch* foi aprimorado para ser usado como uma expressão, tornando o código mais conciso e menos propenso a erros.
+
+**Antes do Java 13:**
+```java
+public class SwitchExpressionsExample {
+    public static void main(String[] args) {
+        int day = 3;
+        String dayName;
+        switch (day) {
+            case 1:
+                dayName = "Monday";
+                break;
+            case 2:
+                dayName = "Tuesday";
+                break;
+            case 3:
+                dayName = "Wednesday";
+                break;
+            default:
+                dayName = "Invalid day";
+        }
+        System.out.println(dayName);
+    }
+}
+```
+
+**Com Switch Expressions:**
+```java
+public class SwitchExpressionsExample {
+    public static void main(String[] args) {
+        int day = 3;
+        String dayName = switch (day) {
+            case 1 -> "Monday";
+            case 2 -> "Tuesday";
+            case 3 -> "Wednesday";
+            default -> "Invalid day";
+        };
+
+        System.out.println(dayName);
+    }
+}
+```
+- O operador `->` simplifica a sintaxe.
+- O *switch* agora retorna um valor diretamente.
+
+---
+
+### 3. **Reimplementação do Socket API**
+A API de *sockets* foi reimplementada para melhorar a performance e a manutenção. Essa mudança é interna e não afeta diretamente o código do desenvolvedor, mas melhora a eficiência de aplicações que utilizam *networking*.
+
+---
+
+### 4. **ZGC: Descarte de Memória Não Utilizada**
+O *Garbage Collector* ZGC foi aprimorado para liberar memória não utilizada de forma mais eficiente. Isso é útil para aplicações que lidam com grandes volumes de dados.
+
+---
+
+Essas mudanças tornam o Java 13 mais produtivo e eficiente, especialmente com as melhorias em *text blocks* e *switch expressions*.
+
+Aqui estão os exemplos das novas features do Java 13 com o código completo, incluindo o método `main`:
+
+---
+
+### 1. **Text Blocks (Prévia)**
+
+Os *text blocks* permitem criar strings multilinha de forma mais legível.
+
+```java
+public class TextBlocksExample {
+    public static void main(String[] args) {
+        // Antes do Java 13
+        String jsonOld = "{\n" +
+                         "  \"name\": \"John\",\n" +
+                         "  \"age\": 30\n" +
+                         "}";
+        System.out.println("Antes do Java 13:");
+        System.out.println(jsonOld);
+
+        // Com Text Blocks
+        String jsonNew = """
+                         {
+                           "name": "John",
+                           "age": 30
+                         }
+                         """;
+        System.out.println("\nCom Text Blocks:");
+        System.out.println(jsonNew);
+    }
+}
+```
+
+---
+
+### 2. **Switch Expressions (Melhoria)**
+
+O *switch* foi aprimorado para ser usado como uma expressão.
+
+```java
+public class SwitchExpressionsExample {
+    public static void main(String[] args) {
+        int day = 3;
+
+        // Antes do Java 13
+        String dayNameOld;
+        switch (day) {
+            case 1:
+                dayNameOld = "Monday";
+                break;
+            case 2:
+                dayNameOld = "Tuesday";
+                break;
+            case 3:
+                dayNameOld = "Wednesday";
+                break;
+            default:
+                dayNameOld = "Invalid day";
+        }
+        System.out.println("Antes do Java 13: " + dayNameOld);
+
+        // Com Switch Expressions
+        String dayNameNew = switch (day) {
+            case 1 -> "Monday";
+            case 2 -> "Tuesday";
+            case 3 -> "Wednesday";
+            default -> "Invalid day";
+        };
+        System.out.println("Com Switch Expressions: " + dayNameNew);
+    }
+}
+```
+
+---
+
+### 3. **Reimplementação do Socket API**
+
+Embora essa mudança seja interna, aqui está um exemplo básico de uso de *sockets* para ilustrar como criar um servidor simples:
+
+```java
+import java.io.*;
+import java.net.*;
+
+public class SocketExample {
+    public static void main(String[] args) {
+        try (ServerSocket serverSocket = new ServerSocket(8080)) {
+            System.out.println("Servidor iniciado na porta 8080...");
+            Socket clientSocket = serverSocket.accept();
+            System.out.println("Cliente conectado!");
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                System.out.println("Recebido: " + inputLine);
+                out.println("Echo: " + inputLine);
+                if ("bye".equalsIgnoreCase(inputLine)) {
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+---
+
+### 4. **ZGC: Descarte de Memória Não Utilizada**
+
+O ZGC é uma melhoria interna no *Garbage Collector*. Para ativá-lo, você pode executar sua aplicação com a flag:
+
+```bash
+java -XX:+UseZGC -Xmx10g -Xms10g YourApplication
+```
+
+Não há mudanças no código, mas o ZGC melhora a performance de aplicações que lidam com grandes volumes de dados.
+
+---
+
+Esses exemplos mostram como usar as novas funcionalidades do Java 13 de forma prática e completa.
+
+
 
  
