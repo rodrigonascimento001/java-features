@@ -575,6 +575,94 @@ public class OptionalExample {
     }
 }
 ```
+Java 12
+---
 
 ---
+
+### 1. **Switch Expressions (Preview)**
+O Java 12 introduziu uma nova forma de usar o `switch`, tornando-o mais expressivo e funcional. Agora, ele pode ser usado como uma expressão que retorna um valor.
+
+```java
+public class SwitchExpressions {
+    public static void main(String[] args) {
+        int day = 3;
+        String dayType = switch (day) {
+            case 1, 7 -> "Weekend";
+            case 2, 3, 4, 5, 6 -> "Weekday";
+            default -> throw new IllegalArgumentException("Invalid day: " + day);
+        };
+        System.out.println(dayType); // Output: Weekday
+    }
+}
+```
+
+---
+
+### 2. **JVM Constants API**
+O Java 12 introduziu a API `java.lang.invoke.constant` para trabalhar com constantes de forma mais eficiente. Essa API é útil para frameworks e ferramentas que precisam manipular bytecode.
+
+```java
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.constant.ClassDesc;
+
+public class JVMConstantsAPI {
+    public static void main(String[] args) {
+        ClassDesc classDesc = MethodHandles.lookup().lookupClass().describeConstable().orElseThrow();
+        System.out.println(classDesc.displayName()); // Output: JVMConstantsAPI
+    }
+}
+```
+
+---
+
+### 3. **Compact Number Formatting**
+O Java 12 adicionou suporte para formatação de números compactos, como "1K" para 1.000 ou "1M" para 1.000.000, usando a classe `NumberFormat`.
+
+```java
+import java.text.NumberFormat;
+import java.util.Locale;
+
+public class CompactNumberFormatting {
+    public static void main(String[] args) {
+        NumberFormat formatter = NumberFormat.getCompactNumberInstance(Locale.US, NumberFormat.Style.SHORT);
+        System.out.println(formatter.format(1_000)); // Output: 1K
+        System.out.println(formatter.format(1_000_000)); // Output: 1M
+    }
+}
+```
+
+---
+
+### 4. **Garbage Collector Improvements**
+- **G1 Garbage Collector**: Melhorias no G1 para reduzir pausas e melhorar o desempenho.
+- **Shenandoah GC (Experimental)**: Um novo coletor de lixo de baixa latência foi introduzido.
+
+---
+
+### 5. **Default CDS Archives**
+O **Class Data Sharing (CDS)** agora é habilitado por padrão, o que melhora o tempo de inicialização da JVM ao compartilhar metadados de classes entre processos.
+
+---
+
+### 6. **Teardown de Threads de JVM**
+O Java 12 introduziu melhorias no processo de encerramento de threads da JVM, tornando-o mais eficiente.
+
+---
+
+### 7. **String Enhancements**
+O método `indent(int n)` foi adicionado à classe `String`, permitindo adicionar ou remover espaços em branco no início de cada linha.
+
+```java
+public class StringIndent {
+    public static void main(String[] args) {
+        String text = "Hello\nJava 12";
+        System.out.println(text.indent(4)); // Adiciona 4 espaços no início de cada linha
+    }
+}
+```
+
+---
+ 
+
  
