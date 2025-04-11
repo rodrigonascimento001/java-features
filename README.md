@@ -782,9 +782,113 @@ java -XX:+UseZGC -Xmx10g -Xms10g YourApplication
 Não há mudanças no código, mas o ZGC melhora a performance de aplicações que lidam com grandes volumes de dados.
 
 ---
+Java 14
+---
 
-Esses exemplos mostram como usar as novas funcionalidades do Java 13 de forma prática e completa.
+### 1. **Switch Expressions (JEP 361)**
+O `switch` foi aprimorado para ser usado como uma expressão, permitindo retornar valores diretamente e reduzindo a verbosidade.
 
+**Exemplo:**
+```java
+public class SwitchExample {
+    public static void main(String[] args) {
+        String day = "MONDAY";
+        int result = switch (day) {
+            case "MONDAY", "FRIDAY", "SUNDAY" -> 6;
+            case "TUESDAY" -> 7;
+            default -> throw new IllegalArgumentException("Invalid day: " + day);
+        };
+        System.out.println("Result: " + result);
+    }
+}
+```
+
+---
+
+### 2. **Text Blocks (JEP 368)**
+Introdução de blocos de texto para facilitar o uso de strings multilinha, eliminando a necessidade de escapes excessivos.
+
+**Exemplo:**
+```java
+public class TextBlockExample {
+    public static void main(String[] args) {
+        String json = """
+                {
+                    "name": "John",
+                    "age": 30,
+                    "city": "New York"
+                }
+                """;
+        System.out.println(json);
+    }
+}
+```
+
+---
+
+### 3. **Records (Preview - JEP 359)**
+Os `records` são uma forma concisa de criar classes imutáveis para armazenar dados, eliminando a necessidade de escrever manualmente `getters`, `equals`, `hashCode` e `toString`.
+
+**Exemplo:**
+```java
+public record Person(String name, int age) {}
+
+public class RecordExample {
+    public static void main(String[] args) {
+        Person person = new Person("Alice", 25);
+        System.out.println(person.name()); // Alice
+        System.out.println(person.age());  // 25
+        System.out.println(person);        // Person[name=Alice, age=25]
+    }
+}
+```
+
+---
+
+### 4. **NullPointerException Melhorado (JEP 358)**
+Agora, o Java fornece mensagens mais detalhadas ao lançar uma `NullPointerException`, ajudando a identificar exatamente onde o problema ocorreu.
+
+**Exemplo:**
+```java
+public class NPEExample {
+    public static void main(String[] args) {
+        String str = null;
+        System.out.println(str.length()); // Lança NullPointerException com detalhes
+    }
+}
+```
+**Mensagem de erro:**
+```
+Exception in thread "main" java.lang.NullPointerException: Cannot invoke "String.length()" because "str" is null
+```
+
+---
+
+### 5. **Pattern Matching para `instanceof` (Preview - JEP 305)**
+Simplifica o uso do operador `instanceof`, eliminando a necessidade de cast explícito.
+
+**Exemplo:**
+```java
+public class PatternMatchingExample {
+    public static void main(String[] args) {
+        Object obj = "Hello, World!";
+        if (obj instanceof String str) {
+            System.out.println(str.toUpperCase()); // HELLO, WORLD!
+        }
+    }
+}
+```
+
+---
+
+### 6. **Foreign-Memory Access API (Incubating - JEP 370)**
+Introduz uma API para acessar memória fora do heap do Java, útil para interagir com bibliotecas nativas.
+
+**Exemplo:**
+Este recurso é mais avançado e usado em casos específicos, como manipulação de buffers fora do heap.
+
+---
+ 
 
 
  
