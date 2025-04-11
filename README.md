@@ -807,7 +807,7 @@ public class SwitchExample {
 
 ### 2. **Text Blocks (JEP 368)**
 Introdução de blocos de texto para facilitar o uso de strings multilinha, eliminando a necessidade de escapes excessivos.
-
+A funcionalidade de Text Blocks foi entregue pela primeira vez como uma feature preview no Java 13, no JEP 355, depois aprimorada no Java 14 com o JEP 368, e, finalmente, incorporada definitivamente à linguagem no Java 15, no JEP 378.
 **Exemplo:**
 ```java
 public class TextBlockExample {
