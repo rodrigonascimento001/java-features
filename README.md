@@ -888,6 +888,132 @@ Introduz uma API para acessar memória fora do heap do Java, útil para interagi
 Este recurso é mais avançado e usado em casos específicos, como manipulação de buffers fora do heap.
 
 ---
+Java 15
+---
+
+### 1. **Text Blocks (Feature Completa)**
+Os *text blocks* foram introduzidos como uma prévia no Java 13 e agora estão completos no Java 15. Eles permitem criar strings multilinha de forma mais legível.
+
+```java
+public class TextBlocksExample {
+    public static void main(String[] args) {
+        // Antes do Text Blocks
+        String htmlOld = "<html>\n" +
+                         "    <body>\n" +
+                         "        <p>Hello, World!</p>\n" +
+                         "    </body>\n" +
+                         "</html>";
+        System.out.println("Antes do Text Blocks:");
+        System.out.println(htmlOld);
+
+        // Com Text Blocks
+        String htmlNew = """
+                <html>
+                    <body>
+                        <p>Hello, World!</p>
+                    </body>
+                </html>
+                """;
+        System.out.println("\nCom Text Blocks:");
+        System.out.println(htmlNew);
+    }
+}
+```
+
+---
+
+### 2. **Sealed Classes (Prévia)**
+As *sealed classes* permitem restringir quais classes podem estender uma classe ou implementar uma interface. Isso ajuda a controlar a hierarquia de classes.
+
+```java
+public sealed class Shape permits Circle, Rectangle {
+    // Classe base para formas geométricas
+}
+
+final class Circle extends Shape {
+    double radius;
+}
+
+final class Rectangle extends Shape {
+    double width, height;
+}
+
+public class SealedClassesExample {
+    public static void main(String[] args) {
+        Shape shape = new Circle();
+        System.out.println("Exemplo de Sealed Classes com Shape.");
+    }
+}
+```
+
+---
+
+### 3. **Records (Prévia)**
+Os *records* são uma forma concisa de criar classes imutáveis que armazenam dados. Eles eliminam a necessidade de escrever manualmente métodos como `equals`, `hashCode` e `toString`.
+
+```java
+public record Person(String name, int age) {}
+
+public class RecordsExample {
+    public static void main(String[] args) {
+        Person person = new Person("John", 30);
+        System.out.println("Nome: " + person.name());
+        System.out.println("Idade: " + person.age());
+        System.out.println("toString: " + person);
+    }
+}
+```
+
+---
+
+### 4. **Pattern Matching para `instanceof` (Prévia)**
+O *pattern matching* simplifica o uso do operador `instanceof`, eliminando a necessidade de fazer cast manualmente.
+
+```java
+public class PatternMatchingExample {
+    public static void main(String[] args) {
+        Object obj = "Hello, World!";
+
+        // Antes do Pattern Matching
+        if (obj instanceof String) {
+            String str = (String) obj;
+            System.out.println("String length: " + str.length());
+        }
+
+        // Com Pattern Matching
+        if (obj instanceof String str) {
+            System.out.println("String length: " + str.length());
+        }
+    }
+}
+```
+
+---
+
+### 5. **ZGC: Garbage Collector Melhorado**
+O *Z Garbage Collector* (ZGC) foi aprimorado no Java 15, suportando descarte de memória não utilizada e melhorando a performance. Para ativá-lo, use a flag:
+
+```bash
+java -XX:+UseZGC -Xmx10g -Xms10g YourApplication
+```
+
+---
+
+### 6. **Hidden Classes**
+As *hidden classes* são classes que não podem ser usadas diretamente pelo código da aplicação, mas são úteis para frameworks e bibliotecas que geram classes dinamicamente.
+
+```java
+import java.lang.invoke.MethodHandles;
+
+public class HiddenClassesExample {
+    public static void main(String[] args) throws Exception {
+        MethodHandles.Lookup lookup = MethodHandles.lookup();
+        System.out.println("Hidden Classes podem ser criadas dinamicamente por frameworks.");
+    }
+}
+```
+
+---
  
 
 
