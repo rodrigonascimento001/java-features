@@ -1014,6 +1014,100 @@ public class HiddenClassesExample {
 ```
 
 ---
+Java16
+---
+
+### 1. **Records (JEP 395)**
+Os `records` são uma forma concisa de criar classes imutáveis para armazenar dados. Eles eliminam a necessidade de escrever manualmente métodos como `equals`, `hashCode` e `toString`.
+
+**Exemplo:**
+```java
+public record Person(String name, int age) {}
+
+public class Main {
+    public static void main(String[] args) {
+        Person person = new Person("Alice", 30);
+        System.out.println(person.name()); // Alice
+        System.out.println(person.age());  // 30
+        System.out.println(person);        // Person[name=Alice, age=30]
+    }
+}
+```
+
+---
+
+### 2. **Pattern Matching para `instanceof` (JEP 394)**
+Agora, o operador `instanceof` pode fazer o casting automaticamente, reduzindo a verbosidade.
+
+**Exemplo:**
+```java
+public class Main {
+    public static void main(String[] args) {
+        Object obj = "Hello, Java 16!";
+        if (obj instanceof String str) {
+            System.out.println(str.toUpperCase()); // HELLO, JAVA 16!
+        }
+    }
+}
+```
+
+---
+
+### 3. **Stream `toList` (JEP 361)**
+O método `toList` foi adicionado à API de Streams para criar listas de forma mais simples.
+
+**Exemplo:**
+```java
+import java.util.List;
+import java.util.stream.Stream;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> names = Stream.of("Alice", "Bob", "Charlie").toList();
+        System.out.println(names); // [Alice, Bob, Charlie]
+    }
+}
+```
+
+---
+
+### 4. **Text Blocks (JEP 378)**
+Embora introduzidos no Java 15, os blocos de texto foram estabilizados no Java 16. Eles permitem criar strings multilinha de forma mais legível.
+
+**Exemplo:**
+```java
+public class Main {
+    public static void main(String[] args) {
+        String json = """
+            {
+                "name": "Alice",
+                "age": 30
+            }
+            """;
+        System.out.println(json);
+    }
+}
+```
+
+---
+
+### 5. **Foreign Function and Memory API (Incubator - JEP 389)**
+Essa API permite interagir com código nativo (fora da JVM) de forma mais segura e eficiente.
+
+**Exemplo:**
+Embora ainda em incubação, a API pode ser usada para acessar memória nativa. Um exemplo básico seria:
+
+```java
+// Exemplo simplificado, requer configuração adicional para uso real.
+```
+
+---
+
+### 6. **JVM Improvements**
+- **ZGC (JEP 376):** O Garbage Collector ZGC agora suporta descarte de memória não utilizada.
+- **JEP 387:** Melhorias no JIT Compiler para desempenho.
+ 
+
  
 
 
