@@ -1106,8 +1106,101 @@ Embora ainda em incubação, a API pode ser usada para acessar memória nativa. 
 ### 6. **JVM Improvements**
 - **ZGC (JEP 376):** O Garbage Collector ZGC agora suporta descarte de memória não utilizada.
 - **JEP 387:** Melhorias no JIT Compiler para desempenho.
- 
 
+---
+Java17
+---
+
+### 1. **Sealed Classes (JEP 409)**
+As `sealed classes` permitem controlar quais classes podem estender ou implementar uma classe ou interface. Isso ajuda a restringir a hierarquia de classes.
+
+**Exemplo:**
+```java
+public sealed class Shape permits Circle, Rectangle {}
+
+public final class Circle extends Shape {}
+
+public final class Rectangle extends Shape {}
+```
+- A classe `Shape` só pode ser estendida pelas classes `Circle` e `Rectangle`.
+
+---
+
+### 2. **Pattern Matching para `switch` (Preview - JEP 406)**
+O `switch` foi aprimorado para suportar pattern matching, tornando o código mais conciso e poderoso.
+
+**Exemplo:**
+```java
+public class PatternMatchingSwitchExample {
+    public static void main(String[] args) {
+        Object obj = 123;
+        String result = switch (obj) {
+            case Integer i -> "Número inteiro: " + i;
+            case String s -> "String: " + s;
+            default -> "Outro tipo";
+        };
+        System.out.println(result); // Número inteiro: 123
+    }
+}
+```
+
+---
+
+### 3. **Text Blocks (Melhorias)**
+Embora introduzidos em versões anteriores, os blocos de texto continuam sendo aprimorados. Eles permitem criar strings multilinha de forma mais legível.
+
+**Exemplo:**
+```java
+public class TextBlocksExample {
+    public static void main(String[] args) {
+        String html = """
+            <html>
+                <body>
+                    <h1>Bem-vindo ao Java 17!</h1>
+                </body>
+            </html>
+            """;
+        System.out.println(html);
+    }
+}
+```
+
+---
+
+### 4. **Depreciação de `Security Manager` (JEP 411)**
+O `Security Manager` foi descontinuado, pois não é mais considerado uma abordagem eficaz para segurança.
+
+---
+
+### 5. **Foreign Function and Memory API (Incubator - JEP 412)**
+Essa API permite interagir com código nativo de forma mais segura e eficiente. Embora ainda em incubação, ela é útil para acessar memória fora da JVM.
+
+---
+
+### 6. **Remoção de APIs Antigas**
+Algumas APIs e ferramentas antigas foram removidas, como o `Applet API`.
+
+---
+
+### 7. **Melhorias no Garbage Collector (G1 e ZGC)**
+O ZGC e o G1 receberam melhorias de desempenho e eficiência.
+
+---
+
+### 8. **Novos Métodos em Classes Utilitárias**
+Novos métodos foram adicionados a classes como `String` e `Stream`.
+
+**Exemplo:**
+```java
+public class StringStripExample {
+    public static void main(String[] args) {
+        String str = " Java 17 ";
+        System.out.println(str.strip()); // Remove espaços em branco: "Java 17"
+    }
+}
+```
+
+---
  
 
 
