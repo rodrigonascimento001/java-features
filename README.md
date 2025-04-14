@@ -1201,6 +1201,118 @@ public class StringStripExample {
 ```
 
 ---
+Java18
+---
+ 
+### 1. **UTF-8 como Charset Padrão**
+O Java 18 define o **UTF-8** como o charset padrão para APIs que dependem do charset padrão do sistema. Isso garante consistência na manipulação de arquivos e strings, independentemente do sistema operacional.
+
+**Exemplo:**
+```java
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+public class Utf8Example {
+    public static void main(String[] args) throws Exception {
+        Path filePath = Path.of("example.txt");
+        Files.writeString(filePath, "Olá, mundo!"); // Salva o texto em UTF-8
+        String content = Files.readString(filePath); // Lê o texto em UTF-8
+        System.out.println(content); // Saída: Olá, mundo!
+    }
+}
+```
+
+---
+
+### 2. **Simple Web Server**
+O Java 18 introduziu um servidor web simples para desenvolvimento e testes. Ele é útil para servir arquivos estáticos rapidamente.
+
+**Exemplo:**
+```bash
+# Comando para iniciar o servidor web simples
+$ jwebserver --port 8080
+```
+Depois de executar o comando, você pode acessar `http://localhost:8080` no navegador para visualizar os arquivos no diretório atual.
+
+---
+
+### 3. **Pattern Matching para `switch` (Preview)**
+O pattern matching no `switch` foi aprimorado, permitindo combinar tipos e padrões diretamente.
+
+**Exemplo:**
+```java
+public class PatternMatchingExample {
+    public static void main(String[] args) {
+        Object obj = 123;
+
+        String result = switch (obj) {
+            case Integer i -> "Número inteiro: " + i;
+            case String s -> "Texto: " + s;
+            default -> "Outro tipo";
+        };
+
+        System.out.println(result); // Saída: Número inteiro: 123
+    }
+}
+```
+
+---
+
+### 4. **API de Funções Hash**
+Uma nova API foi adicionada para calcular hashes de forma mais simples e eficiente.
+
+**Exemplo:**
+```java
+import java.security.MessageDigest;
+
+public class HashExample {
+    public static void main(String[] args) throws Exception {
+        String input = "StackSpot";
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] hash = md.digest(input.getBytes());
+
+        System.out.println(bytesToHex(hash)); // Saída: Hash em formato hexadecimal
+    }
+
+    private static String bytesToHex(byte[] bytes) {
+        StringBuilder sb = new StringBuilder();
+        for (byte b : bytes) {
+            sb.append(String.format("%02x", b));
+        }
+        return sb.toString();
+    }
+}
+```
+
+---
+
+### 5. **Vector API (Terceira Incubação)**
+A Vector API foi aprimorada para operações de processamento paralelo em vetores, melhorando o desempenho em cálculos matemáticos.
+
+**Exemplo:**
+```java
+import jdk.incubator.vector.*;
+
+public class VectorApiExample {
+    public static void main(String[] args) {
+        var vector1 = FloatVector.fromArray(FloatVector.SPECIES_256, new float[]{1.0f, 2.0f, 3.0f, 4.0f}, 0);
+        var vector2 = FloatVector.fromArray(FloatVector.SPECIES_256, new float[]{5.0f, 6.0f, 7.0f, 8.0f}, 0);
+
+        var result = vector1.add(vector2); // Soma vetorial
+        result.intoArray(new float[4], 0);
+
+        System.out.println(result); // Saída: [6.0, 8.0, 10.0, 12.0]
+    }
+}
+```
+
+---
+
+### 6. **Depreciação de Finalização**
+O método `finalize()` foi oficialmente marcado como **deprecated**. Ele será removido em versões futuras, incentivando o uso de outras técnicas de gerenciamento de recursos, como `try-with-resources`.
+ 
+---
+ 
  
 
 
