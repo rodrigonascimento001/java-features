@@ -1014,7 +1014,7 @@ public class HiddenClassesExample {
 ```
 
 ---
-Java16
+Java 16
 ---
 
 ### 1. **Records (JEP 395)**
@@ -1108,7 +1108,7 @@ Embora ainda em incubação, a API pode ser usada para acessar memória nativa. 
 - **JEP 387:** Melhorias no JIT Compiler para desempenho.
 
 ---
-Java17
+Java 17
 ---
 
 ### 1. **Sealed Classes (JEP 409)**
@@ -1201,7 +1201,7 @@ public class StringStripExample {
 ```
 
 ---
-Java18
+Java 18
 ---
  
 ### 1. **UTF-8 como Charset Padrão**
@@ -1312,6 +1312,145 @@ public class VectorApiExample {
 O método `finalize()` foi oficialmente marcado como **deprecated**. Ele será removido em versões futuras, incentivando o uso de outras técnicas de gerenciamento de recursos, como `try-with-resources`.
  
 ---
+Java 19
+---
+ 
+### 1. **Pattern Matching para `switch` (Terceira Preview)**
+O recurso de pattern matching no `switch` foi aprimorado, permitindo maior flexibilidade e legibilidade ao trabalhar com diferentes tipos e padrões.
+
+**Exemplo:**
+```java
+public class PatternMatchingSwitch {
+    public static void main(String[] args) {
+        Object obj = "StackSpot";
+
+        String result = switch (obj) {
+            case Integer i -> "Número inteiro: " + i;
+            case String s && s.length() > 5 -> "Texto longo: " + s;
+            case String s -> "Texto curto: " + s;
+            default -> "Outro tipo";
+        };
+
+        System.out.println(result); // Saída: Texto longo: StackSpot
+    }
+}
+```
+
+---
+
+### 2. **Virtual Threads (Primeira Preview)**
+Os **Virtual Threads** (parte do projeto Loom) permitem criar threads leves, otimizando o uso de recursos e facilitando a programação concorrente.
+
+**Exemplo:**
+```java
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class VirtualThreadsExample {
+    public static void main(String[] args) throws Exception {
+        try (ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor()) {
+            for (int i = 0; i < 10; i++) {
+                executor.submit(() -> {
+                    System.out.println("Executando em thread virtual: " + Thread.currentThread());
+                });
+            }
+        }
+    }
+}
+```
+
+---
+
+### 3. **Structured Concurrency (Incubação)**
+A Structured Concurrency simplifica o gerenciamento de tarefas concorrentes, melhorando a legibilidade e a depuração.
+
+**Exemplo:**
+```java
+import java.util.concurrent.*;
+
+public class StructuredConcurrencyExample {
+    public static void main(String[] args) throws Exception {
+        try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
+            Future<String> task1 = scope.fork(() -> "Resultado da Tarefa 1");
+            Future<String> task2 = scope.fork(() -> "Resultado da Tarefa 2");
+
+            scope.join(); // Aguarda todas as tarefas
+            scope.throwIfFailed(); // Lança exceções, se houver
+
+            System.out.println(task1.resultNow());
+            System.out.println(task2.resultNow());
+        }
+    }
+}
+```
+
+---
+
+### 4. **Foreign Function & Memory API (Segunda Preview)**
+Essa API permite interagir com código nativo (fora da JVM) de forma mais segura e eficiente.
+
+**Exemplo:**
+```java
+import java.lang.foreign.*;
+import java.lang.invoke.MethodHandle;
+
+public class ForeignFunctionExample {
+    public static void main(String[] args) throws Throwable {
+        try (var session = MemorySession.openConfined()) {
+            var strlen = Linker.nativeLinker().downcallHandle(
+                Linker.nativeLinker().defaultLookup().find("strlen").get(),
+                FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+            );
+
+            var cString = session.allocateUtf8String("StackSpot");
+            long length = (long) strlen.invoke(cString.address());
+            System.out.println("Comprimento da string: " + length); // Saída: 9
+        }
+    }
+}
+```
+
+---
+
+### 5. **Vector API (Quarta Incubação)**
+A Vector API foi aprimorada para operações de processamento paralelo em vetores, melhorando o desempenho em cálculos matemáticos.
+
+**Exemplo:**
+```java
+import jdk.incubator.vector.*;
+
+public class VectorApiExample {
+    public static void main(String[] args) {
+        var vector1 = FloatVector.fromArray(FloatVector.SPECIES_256, new float[]{1.0f, 2.0f, 3.0f, 4.0f}, 0);
+        var vector2 = FloatVector.fromArray(FloatVector.SPECIES_256, new float[]{5.0f, 6.0f, 7.0f, 8.0f}, 0);
+        var result = vector1.add(vector2); // Soma vetorial
+        System.out.println(result); // Saída: [6.0, 8.0, 10.0, 12.0]
+    }
+}
+```
+
+---
+
+### 6. **Preview de Record Patterns**
+Os **Record Patterns** permitem destrinchar objetos do tipo `record` diretamente em expressões.
+
+**Exemplo:**
+```java
+public record Point(int x, int y) {}
+
+public class RecordPatternExample {
+    public static void main(String[] args) {
+        Object obj = new Point(3, 4);
+
+        if (obj instanceof Point(int x, int y)) {
+            System.out.println("Ponto: x=" + x + ", y=" + y); // Saída: Ponto: x=3, y=4
+        }
+    }
+}
+```
+
+---
+
  
  
 
