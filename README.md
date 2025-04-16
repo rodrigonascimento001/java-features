@@ -1448,8 +1448,118 @@ public class RecordPatternExample {
     }
 }
 ```
+Java 20
+---
+O Java 20 trouxe algumas melhorias e recursos experimentais que continuam a evolução da linguagem e da plataforma. 
 
 ---
+
+### 1. **Scoped Values (Preview)**
+Os **Scoped Values** são uma alternativa mais segura e eficiente às variáveis `ThreadLocal`. Eles permitem compartilhar dados imutáveis entre threads de forma controlada.
+
+**Exemplo:**
+```java
+import jdk.incubator.concurrent.ScopedValue;
+
+public class ScopedValueExample {
+    // Define um ScopedValue
+    private static final ScopedValue<String> USER = ScopedValue.newInstance();
+
+    public static void main(String[] args) {
+        ScopedValue.where(USER, "Alice").run(() -> {
+            System.out.println("User: " + USER.get()); // Output: User: Alice
+        });
+    }
+}
+```
+
+---
+
+### 2. **Virtual Threads (Second Preview)**
+Os **Virtual Threads** são threads leves que facilitam a criação de aplicações altamente concorrentes. Eles são mais eficientes que os threads tradicionais.
+
+**Exemplo:**
+```java
+import java.util.concurrent.Executors;
+
+public class VirtualThreadsExample {
+    public static void main(String[] args) throws InterruptedException {
+        try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+            for (int i = 0; i < 10; i++) {
+                executor.submit(() -> {
+                    System.out.println("Running in virtual thread: " + Thread.currentThread());
+                });
+            }
+        }
+    }
+}
+```
+
+---
+
+### 3. **Pattern Matching for Switch (Fourth Preview)**
+O **Pattern Matching** para `switch` permite combinar padrões diretamente em expressões `switch`, tornando o código mais legível e poderoso.
+
+**Exemplo:**
+```java
+public class PatternMatchingSwitchExample {
+    public static void main(String[] args) {
+        Object obj = 123;
+
+        String result = switch (obj) {
+            case Integer i -> "Integer: " + i;
+            case String s -> "String: " + s;
+            default -> "Unknown type";
+        };
+
+        System.out.println(result); // Output: Integer: 123
+    }
+}
+```
+
+---
+
+### 4. **Record Patterns (Second Preview)**
+Os **Record Patterns** permitem destruturar objetos `record` diretamente em expressões, facilitando o acesso aos seus componentes.
+
+**Exemplo:**
+```java
+public record Point(int x, int y) {}
+
+public class RecordPatternExample {
+    public static void main(String[] args) {
+        Point point = new Point(10, 20);
+
+        if (point instanceof Point(int x, int y)) {
+            System.out.println("x: " + x + ", y: " + y); // Output: x: 10, y: 20
+        }
+    }
+}
+```
+
+---
+
+### 5. **Foreign Function & Memory API (Third Preview)**
+Essa API permite interagir com código e memória fora da JVM de forma segura e eficiente, substituindo o uso de JNI.
+
+**Exemplo:**
+```java
+import jdk.incubator.foreign.*;
+
+public class ForeignMemoryExample {
+    public static void main(String[] args) {
+        try (MemorySegment segment = MemorySegment.allocateNative(100)) {
+            MemoryAccess.setIntAtOffset(segment, 0, 42);
+            int value = MemoryAccess.getIntAtOffset(segment, 0);
+            System.out.println("Value: " + value); // Output: Value: 42
+        }
+    }
+}
+```
+
+---
+Essas são as principais features do Java 20. Muitas delas ainda estão em **preview** ou **incubação**, o que significa que podem mudar em versões futuras.
+
 
  
  
