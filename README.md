@@ -1556,11 +1556,148 @@ public class ForeignMemoryExample {
     }
 }
 ```
+Java 21
+---
+
+## 1. **Record Patterns** (Padrões de Record)
+Permite destruturar objetos de record diretamente em comandos como `if` e `switch`.
+
+**Exemplo:**
+```java
+public class RecordPatternExample {
+    record Point(int x, int y) {}
+
+    public static void main(String[] args) {
+        Object obj = new Point(10, 20);
+        if (obj instanceof Point(int x, int y)) {
+            System.out.println("x = " + x + ", y = " + y);
+        }
+    }
+}
+```
 
 ---
-Essas são as principais features do Java 20. Muitas delas ainda estão em **preview** ou **incubação**, o que significa que podem mudar em versões futuras.
 
+## 2. **Pattern Matching for switch** (Correspondência de padrões no switch)
+Permite usar `switch` com tipos diferentes e padrões, tornando o código mais limpo.
 
+**Exemplo:**
+```java
+public class PatternMatchingSwitchExample {
+    public static void main(String[] args) {
+        Object o = 42;
+        System.out.println(formatter(o));
+        o = "StackSpot";
+        System.out.println(formatter(o));
+        o = 3.14;
+        System.out.println(formatter(o));
+    }
+
+    static String formatter(Object o) {
+        return switch (o) {
+            case Integer i -> "Integer: " + i;
+            case String s -> "String: " + s;
+            default -> "Unknown";
+        };
+    }
+}
+```
+
+---
+
+## 3. **Sequenced Collections**
+Novas interfaces para coleções ordenadas: `SequencedCollection`, `SequencedSet`, `SequencedMap`.
+
+**Exemplo:**
+```java
+import java.util.SequencedCollection;
+import java.util.ArrayList;
+
+public class SequencedCollectionExample {
+    public static void main(String[] args) {
+        SequencedCollection<String> sc = new ArrayList<>();
+        sc.addFirst("A");
+        sc.addLast("B");
+        System.out.println(sc); // [A, B]
+    }
+}
+```
+
+---
+
+## 4. **String Templates (Preview)**
+Permite interpolar variáveis em strings de forma mais segura e legível.
+
+**Exemplo:**
+```java
+public class StringTemplateExample {
+    public static void main(String[] args) {
+        String name = "Maria";
+        int age = 30;
+        String message = STR."Nome: \{name}, Idade: \{age}";
+        System.out.println(message); // Nome: Maria, Idade: 30
+    }
+}
+```
+
+---
+
+## 5. **Virtual Threads**
+Facilita a criação de milhares de threads leves, melhorando a escalabilidade de aplicações concorrentes.
+
+**Exemplo:**
+```java
+public class VirtualThreadExample {
+    public static void main(String[] args) {
+        Runnable task = () -> System.out.println("Executando em thread virtual!");
+        Thread.startVirtualThread(task);
+    }
+}
+```
+
+---
+
+## 6. **Scoped Values (Preview)**
+Permite passar valores imutáveis entre threads de forma segura, alternativa ao ThreadLocal.
+
+**Exemplo:**
+```java
+public class ScopedValueExample {
+    public static void main(String[] args) {
+        ScopedValue<String> USER = ScopedValue.newInstance();
+        ScopedValue.where(USER, "Maria").run(() -> {
+            System.out.println(USER.get()); // Maria
+        });
+    }
+}
+```
+
+---
+
+## 7. **Unnamed Patterns and Variables**
+Permite ignorar variáveis que não serão usadas, usando `_`.
+
+**Exemplo:**
+```java
+public class UnnamedPatternExample {
+    record Point(int x, int y) {}
+
+    public static void main(String[] args) {
+        Object obj = new Point(5, 99);
+        if (obj instanceof Point(int x, _)) {
+            System.out.println("x = " + x);
+        }
+    }
+}
+```
+
+---
+
+## 8. **Deprecações e Remoções**
+Algumas APIs antigas foram removidas ou marcadas como obsoletas, como o método `Thread.stop()`.
+
+---
+ 
  
  
 
